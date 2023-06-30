@@ -41,7 +41,7 @@ const StoreModal = () => {
 
       toast.success("Store created successfully");
 
-      // TODO: redirect
+      window.location.assign(`/${res.data.id}`);
     } catch (error) {
       toast.error("Something went wrong");
     } finally {
