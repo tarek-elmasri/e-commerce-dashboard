@@ -78,7 +78,7 @@ export const DELETE = async (
 
     const storeByUser = await prismadb.store.findFirst({
       where: {
-        id: billboardId,
+        id: storeId,
         userId,
       },
     });
