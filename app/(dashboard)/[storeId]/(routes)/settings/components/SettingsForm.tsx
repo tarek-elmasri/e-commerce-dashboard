@@ -21,6 +21,7 @@ import { Input } from "@/components/ui/input";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { useParams, useRouter } from "next/navigation";
+import AlertModal from "@/components/modals/AlertModal";
 
 interface SettingsFormProps {
   initialData: Store;
@@ -37,7 +38,7 @@ const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
   // trigger alert modal
   const params = useParams();
   const router = useRouter();
-  const [open, setOpen] = useState(false);
+  const [alertIsOpen, setAlertIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<SettingsFormValues>({
@@ -58,15 +59,37 @@ const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
     }
   };
 
+  const onDelete = async () => {
+    try {
+      setIsLoading(true);
+      await axios.delete(`/api/stores/${params.storeId}`);
+      toast.success("Store deleted successfully");
+      router.replace("/");
+    } catch (error) {
+      toast.error("Make sure you removed all products and categories first.");
+    } finally {
+      setIsLoading(false);
+      setAlertIsOpen(false);
+    }
+  };
+
   return (
     <>
+      <AlertModal
+        title="Delete Store"
+        description={`Are you sure you want to delete store permenantly? ${params.storeId}`}
+        isOpen={alertIsOpen}
+        isLoading={false}
+        onClose={() => setAlertIsOpen(false)}
+        onConfirm={onDelete}
+      />
       <div className="flex items-center justify-between">
         <Heading title="Settings" description="Manage store preferences" />
         <Button
           disabled={isLoading}
           variant={"destructive"}
           size={"sm"}
-          onClick={() => setOpen(true)}
+          onClick={() => setAlertIsOpen(true)}
         >
           <Trash className="h-4 w-4" />
         </Button>
