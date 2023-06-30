@@ -19,8 +19,6 @@ const MainNav = ({
     },
   ];
 
-  // TODO: create Settings page
-
   return (
     <nav className={cn("flex items-center space-x-4 lg:space-x6", className)}>
       {routes.map((route) => (
