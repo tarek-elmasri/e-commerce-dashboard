@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 
 // TODO: check if authentication is required
 export const GET = async (
-  req: Request,
+  _req: Request,
   { params }: { params: { productId: string } }
 ) => {
   try {

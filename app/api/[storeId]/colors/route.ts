@@ -3,16 +3,10 @@ import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 
 export const GET = async (
-  req: Request,
+  _req: Request,
   { params }: { params: { storeId: string } }
 ) => {
   try {
-    const { userId } = auth();
-
-    if (!userId) {
-      return new NextResponse("Unauthenticated", { status: 403 });
-    }
-
     const colors = await prismadb.color.findMany({
       where: {
         storeId: params.storeId,
