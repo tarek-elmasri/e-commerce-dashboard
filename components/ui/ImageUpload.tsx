@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { ImagePlus, Trash } from "lucide-react";
 import { CldUploadWidget } from "next-cloudinary";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
 interface ImageUploadProps {
   disabled?: boolean;
@@ -18,18 +19,17 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   onRemove,
   values,
 }) => {
-  // TODO: Test hydration
-  // const [isMounted, setIsMounted] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
 
-  // useEffect(() => {
-  //   setIsMounted(true);
-  // }, []);
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const onUpload = (results: any) => {
     onChange(results.info.secure_url);
   };
 
-  // if (!isMounted) return null;
+  if (!isMounted) return null;
 
   return (
     <div>
