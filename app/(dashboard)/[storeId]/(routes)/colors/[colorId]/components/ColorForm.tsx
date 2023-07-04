@@ -4,7 +4,7 @@ import axios from "axios";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { Color } from "@prisma/client";
 import { toast } from "react-hot-toast";
 import Heading from "@/components/ui/Heading";
@@ -39,7 +39,6 @@ type ColorFormValues = z.infer<typeof formSchema>;
 
 const SizeForm: React.FC<ColorFormProps> = ({ initialData }) => {
   const params = useParams();
-  const router = useRouter();
   const [alertIsOpen, setAlertIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -71,7 +70,7 @@ const SizeForm: React.FC<ColorFormProps> = ({ initialData }) => {
       } else {
         await axios.post(`/api/${params.storeId}/colors`, formValues);
       }
-      router.push(`/${params.storeId}/colors`);
+      window.location.assign(`/${params.storeId}/colors`);
       toast.success(toastMessage);
     } catch (error) {
       toast.error("Something went wrong");
@@ -85,7 +84,7 @@ const SizeForm: React.FC<ColorFormProps> = ({ initialData }) => {
       setIsLoading(true);
       await axios.delete(`/api/${params.storeId}/colors/${params.colorId}`);
       toast.success("Color deleted successfully");
-      router.replace(`/${params.storeId}/colors`);
+      window.location.assign(`/${params.storeId}/colors`);
     } catch (error) {
       toast.error("Make sure you deleted all products using this color!");
     } finally {

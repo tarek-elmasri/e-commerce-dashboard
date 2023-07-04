@@ -4,7 +4,7 @@ import axios from "axios";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { Category, Color, Image, Product, Size } from "@prisma/client";
 import { toast } from "react-hot-toast";
 import Heading from "@/components/ui/Heading";
@@ -65,7 +65,6 @@ const ProductForm: React.FC<ProductFormProps> = ({
   categories,
 }) => {
   const params = useParams();
-  const router = useRouter();
   const [alertIsOpen, setAlertIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -109,7 +108,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
       } else {
         await axios.post(`/api/${params.storeId}/products`, formValues);
       }
-      router.push(`/${params.storeId}/products`);
+      window.location.assign(`/${params.storeId}/products`);
       toast.success(toastMessage);
     } catch (error) {
       toast.error("Something went wrong");
@@ -123,7 +122,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
       setIsLoading(true);
       await axios.delete(`/api/${params.storeId}/products/${params.productId}`);
       toast.success("Product deleted successfully");
-      router.replace(`/${params.storeId}/products`);
+      window.location.assign(`/${params.storeId}/products`);
     } catch (error) {
       toast.error("Something went wrong!");
     } finally {

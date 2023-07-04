@@ -4,7 +4,7 @@ import axios from "axios";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { Size } from "@prisma/client";
 import { toast } from "react-hot-toast";
 import Heading from "@/components/ui/Heading";
@@ -22,7 +22,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import AlertModal from "@/components/modals/AlertModal";
-import ImageUpload from "@/components/ui/ImageUpload";
 
 interface SizeFormProps {
   initialData: Size | null;
@@ -37,7 +36,6 @@ type SizeFormValues = z.infer<typeof formSchema>;
 
 const SizeForm: React.FC<SizeFormProps> = ({ initialData }) => {
   const params = useParams();
-  const router = useRouter();
   const [alertIsOpen, setAlertIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -70,7 +68,7 @@ const SizeForm: React.FC<SizeFormProps> = ({ initialData }) => {
       } else {
         await axios.post(`/api/${params.storeId}/sizes`, formValues);
       }
-      router.push(`/${params.storeId}/sizes`);
+      window.location.assign(`/${params.storeId}/sizes`);
       toast.success(toastMessage);
     } catch (error) {
       toast.error("Something went wrong");
@@ -84,7 +82,7 @@ const SizeForm: React.FC<SizeFormProps> = ({ initialData }) => {
       setIsLoading(true);
       await axios.delete(`/api/${params.storeId}/sizes/${params.sizeId}`);
       toast.success("Size deleted successfully");
-      router.replace(`/${params.storeId}/sizes`);
+      window.location.assign(`/${params.storeId}/sizes`);
     } catch (error) {
       toast.error("Make sure you deleted all products using this size!");
     } finally {
